@@ -1,0 +1,10 @@
+--- st.h
++++ st.h
+@@ -131,3 +136,7 @@ extern unsigned int tabspaces;
+ extern unsigned int defaultfg;
+ extern unsigned int defaultbg;
+ extern unsigned int defaultcs;
++extern char *urlhandler;
++extern char urlchars[];
++extern char *urlprefixes[];
++extern int nurlprefixes;
