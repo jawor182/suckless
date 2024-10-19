@@ -38,7 +38,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Brave",   NULL,     NULL,           1,         0,          0,          -1,        -1 },
+	/*{ "Brave",   NULL,     NULL,           1,         0,          0,          -1,        -1 },*/
 	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
 	{ "Kitty",   NULL,     NULL,           0,         0,          1,           0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
@@ -100,8 +100,9 @@ static const char *upvol[]           = { "/usr/bin/wpctl",   "set-volume", "@DEF
 static const char *downvol[]         = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%-",      NULL };
 static const char *mutevol[]         = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_AUDIO_SINK@",      "toggle",   NULL };
 static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
-static const char *mednextcmd[] = { "playerctl", "next", NULL };
-static const char *medprevcmd[] = { "playerctl", "previous", NULL };
+static const char *mednextcmd[]      = { "playerctl", "next", NULL };
+static const char *medprevcmd[]      = { "playerctl", "previous", NULL };
+static const char *audiosettintgs[]  = { TERMINAL, "-e", "pulsemixer", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -163,6 +164,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = nitrogen } },
     { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = fileManager } },
     { MODKEY|Mod1Mask|ShiftMask,    XK_f,      spawn,          {.v = altFileManager } },
+    { MODKEY|ControlMask,           XK_s,      spawn,          {.v = audiosettintgs } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
