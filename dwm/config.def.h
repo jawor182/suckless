@@ -103,6 +103,8 @@ static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
 static const char *mednextcmd[]      = { "playerctl", "next", NULL };
 static const char *medprevcmd[]      = { "playerctl", "previous", NULL };
 static const char *audiosettintgs[]  = { TERMINAL, "-e", "pulsemixer", NULL };
+static const char *btsettintgs[]     = { TERMINAL, "-e", "bluetuith", NULL };
+static const char *passmenu[]        = { "passmenu", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -165,6 +167,8 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = fileManager } },
     { MODKEY|Mod1Mask|ShiftMask,    XK_f,      spawn,          {.v = altFileManager } },
     { MODKEY|ControlMask,           XK_s,      spawn,          {.v = audiosettintgs } },
+    { MODKEY|ControlMask,           XK_b,      spawn,          {.v = btsettintgs } },
+    { MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenu } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
