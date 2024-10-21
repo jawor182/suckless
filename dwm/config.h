@@ -40,6 +40,7 @@ static const Rule rules[] = {
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
 	/*{ "Brave",   NULL,     NULL,           1,         0,          0,          -1,        -1 },*/
 	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "Megasync",NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "Kitty",   NULL,     NULL,           0,         0,          1,           0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
@@ -104,7 +105,7 @@ static const char *mednextcmd[]      = { "playerctl", "next", NULL };
 static const char *medprevcmd[]      = { "playerctl", "previous", NULL };
 static const char *audiosettintgs[]  = { TERMINAL, "-e", "pulsemixer", NULL };
 static const char *btsettintgs[]     = { TERMINAL, "-e", "bluetuith", NULL };
-static const char *passmenu[]        = { "passmenu", NULL };
+static const char *passwords[]        = { "keepassxc", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -168,7 +169,7 @@ static const Key keys[] = {
     { MODKEY|Mod1Mask|ShiftMask,    XK_f,      spawn,          {.v = altFileManager } },
     { MODKEY|ControlMask,           XK_s,      spawn,          {.v = audiosettintgs } },
     { MODKEY|ControlMask,           XK_b,      spawn,          {.v = btsettintgs } },
-    { MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenu } },
+    { MODKEY|ControlMask,           XK_p,      spawn,          {.v = passwords } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
