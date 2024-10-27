@@ -90,9 +90,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]        = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]         = { TERMINAL, "--class", "Kitty", NULL };
-static const char *browser[]         = { "brave", NULL };
+static const char *browser[]         = { "firefox", NULL };
 static const char *mail[]            = { "thunderbird", NULL };
-static const char *spotify[]         = { "com.spotify.Client", NULL };
+static const char *spotify[]         = { "spotify", NULL };
 static const char *obsidian[]        = { "obsidian", NULL};
 static const char *fileManager[]     = { TERMINAL, "-e", "yazi", NULL };
 static const char *altFileManager[]  = { "thunar", NULL };
@@ -105,7 +105,8 @@ static const char *mednextcmd[]      = { "playerctl", "next", NULL };
 static const char *medprevcmd[]      = { "playerctl", "previous", NULL };
 static const char *audiosettintgs[]  = { TERMINAL, "-e", "pulsemixer", NULL };
 static const char *btsettintgs[]     = { TERMINAL, "-e", "bluetuith", NULL };
-static const char *passwords[]        = { "keepassxc", NULL };
+static const char *passwords[]       = { "keepassxc", NULL };
+static const char *screenshot[]      = { "flameshot", "gui", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -170,6 +171,7 @@ static const Key keys[] = {
     { MODKEY|ControlMask,           XK_s,      spawn,          {.v = audiosettintgs } },
     { MODKEY|ControlMask,           XK_b,      spawn,          {.v = btsettintgs } },
     { MODKEY|ControlMask,           XK_p,      spawn,          {.v = passwords } },
+    { MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = screenshot } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
