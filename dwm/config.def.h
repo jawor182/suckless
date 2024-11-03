@@ -27,6 +27,11 @@ static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeStatus]  = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { col_gray4, col_cyan,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+	[SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+	[SchemeInfoSel]  = { col_gray4, col_cyan,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+	[SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
@@ -90,13 +95,12 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]        = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]         = { TERMINAL, "--class", "Kitty", NULL };
-static const char *browser[]         = { "brave", NULL };
+static const char *browser[]         = { "firefox", NULL };
 static const char *mail[]            = { "thunderbird", NULL };
 static const char *spotify[]         = { "spotify", NULL };
 static const char *obsidian[]        = { "obsidian", NULL};
 static const char *fileManager[]     = { TERMINAL, "-e", "yazi", NULL };
 static const char *altFileManager[]  = { "thunar", NULL };
-static const char *nitrogen[]        = { "nitrogen", NULL };
 static const char *upvol[]           = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%+",      NULL };
 static const char *downvol[]         = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%-",      NULL };
 static const char *mutevol[]         = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_AUDIO_SINK@",      "toggle",   NULL };
@@ -107,6 +111,7 @@ static const char *audiosettintgs[]  = { TERMINAL, "-e", "pulsemixer", NULL };
 static const char *btsettintgs[]     = { TERMINAL, "-e", "bluetuith", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *screenshot[]      = { "flameshot", "gui", NULL };
+static const char *wallpaper[]       = { "nitrogen", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -165,12 +170,12 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = mail } },
     { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = spotify } },
     { MODKEY|ShiftMask,             XK_o,      spawn,          {.v = obsidian } },
-    { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = nitrogen } },
     { MODKEY|ShiftMask,             XK_f,      spawn,          {.v = fileManager } },
     { MODKEY|Mod1Mask|ShiftMask,    XK_f,      spawn,          {.v = altFileManager } },
     { MODKEY|ControlMask,           XK_s,      spawn,          {.v = audiosettintgs } },
     { MODKEY|ControlMask,           XK_b,      spawn,          {.v = btsettintgs } },
     { MODKEY|ControlMask,           XK_p,      spawn,          {.v = passwords } },
+    { MODKEY|ControlMask,           XK_w,      spawn,          {.v = wallpaper } },
     { MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = screenshot } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
@@ -200,4 +205,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
