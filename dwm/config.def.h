@@ -89,18 +89,18 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-# define TERMINAL "kitty"
+# define TERMINAL "ghostty"
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]        = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]         = { TERMINAL, "--class", "Kitty", NULL };
-static const char *browser[]         = { "firefox", NULL };
+static const char *termcmd[]         = { TERMINAL, NULL };
+static const char *browser[]         = { "zen-browser", NULL };
 static const char *mail[]            = { "thunderbird", NULL };
-static const char *spotify[]         = { "spotify", NULL };
+static const char *spotify[]         = { "com.spotify.Client", NULL };
 static const char *obsidian[]        = { "obsidian", NULL};
 static const char *fileManager[]     = { TERMINAL, "-e", "yazi", NULL };
-static const char *altFileManager[]  = { "thunar", NULL };
+static const char *altFileManager[]  = { "nautilus", NULL };
 static const char *upvol[]           = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%+",      NULL };
 static const char *downvol[]         = { "/usr/bin/wpctl",   "set-volume", "@DEFAULT_AUDIO_SINK@",      "5%-",      NULL };
 static const char *mutevol[]         = { "/usr/bin/wpctl",   "set-mute",   "@DEFAULT_AUDIO_SINK@",      "toggle",   NULL };
@@ -108,7 +108,7 @@ static const char *medplaypausecmd[] = { "playerctl", "play-pause", NULL };
 static const char *mednextcmd[]      = { "playerctl", "next", NULL };
 static const char *medprevcmd[]      = { "playerctl", "previous", NULL };
 static const char *audiosettintgs[]  = { TERMINAL, "-e", "pulsemixer", NULL };
-static const char *btsettintgs[]     = { TERMINAL, "-e", "bluetuith", NULL };
+static const char *btsettintgs[]     = { TERMINAL, "-e", "bluetui", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *screenshot[]      = { "flameshot", "gui", NULL };
 static const char *wallpaper[]       = { "nitrogen", NULL };
