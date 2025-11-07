@@ -35,7 +35,7 @@ static const XPoint stickyiconbb    = {4,8};	/* defines the bottom right corner 
 
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "brave"
+#define BROWSER "librewolf"
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -99,9 +99,6 @@ static const Layout layouts[] = {
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD, XK_j,     ACTION##stack, {.i = INC(+1) } }, \
 	{ MOD, XK_k,     ACTION##stack, {.i = INC(-1) } }, \
-    // { MOD, XK_y,     ACTION##stack, {.i = 0 } }, \
-    // { MOD, XK_u,     ACTION##stack, {.i = 1 } }, \
-    // { MOD, XK_i,     ACTION##stack, {.i = 2 } }, \
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
