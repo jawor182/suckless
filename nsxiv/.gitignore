@@ -1,0 +1,5 @@
+version.h
+*.d
+*.o
+nsxiv
+icon/img2data
