@@ -235,7 +235,7 @@ drawlogo(Display *dpy, struct lock *lock, int color)
 
 static void
 readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
-       const char *hash)
+	   const char *hash)
 {
 	XRRScreenChangeNotifyEvent *rre;
 	char buf[32];
@@ -246,13 +246,24 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 	pam_handle_t *pamh;
 
 	len = 0;
-    caps = 0;
+	caps = 0;
 	running = 1;
 	failure = 0;
 	oldc = INIT;
 
 	if (!XkbGetIndicatorState(dpy, XkbUseCoreKbd, &indicators))
 		caps = indicators & 1;
+	for (screen = 0; screen < nscreens; screen++) {
+		if (locks[screen]->screen == 0) {
+			drawlogo(dpy, locks[screen], INIT);
+		} else {
+			/* Draw blank background on other screens */
+			XSetForeground(dpy, locks[screen]->gc, locks[screen]->colors[BACKGROUND]);
+			XFillRectangle(dpy, locks[screen]->drawable, locks[screen]->gc, 0, 0, locks[screen]->x, locks[screen]->y);
+			XCopyArea(dpy, locks[screen]->drawable, locks[screen]->win, locks[screen]->gc, 0, 0, locks[screen]->x, locks[screen]->y, 0, 0);
+			XSync(dpy, False);
+		}
+	}
 
 	while (running && !XNextEvent(dpy, &ev)) {
 		if (ev.type == KeyPress) {
@@ -265,35 +276,47 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 					ksym = (ksym - XK_KP_0) + XK_0;
 			}
 			if (IsFunctionKey(ksym) ||
-			    IsKeypadKey(ksym) ||
-			    IsMiscFunctionKey(ksym) ||
-			    IsPFKey(ksym) ||
-			    IsPrivateKeypadKey(ksym))
+				IsKeypadKey(ksym) ||
+				IsMiscFunctionKey(ksym) ||
+				IsPFKey(ksym) ||
+				IsPrivateKeypadKey(ksym))
 				continue;
 			switch (ksym) {
-      case XF86XK_AudioPlay:
-      case XF86XK_AudioStop:
-      case XF86XK_AudioPrev:
-      case XF86XK_AudioNext:
-      case XF86XK_AudioRaiseVolume:
-      case XF86XK_AudioLowerVolume:
-      case XF86XK_AudioMute:
-      case XF86XK_AudioMicMute:
-      case XF86XK_MonBrightnessDown:
-      case XF86XK_MonBrightnessUp:
-        XSendEvent(dpy, DefaultRootWindow(dpy), True, KeyPressMask, &ev);
-        break;
+	case XF86XK_AudioPlay:
+	case XF86XK_AudioStop:
+	case XF86XK_AudioPrev:
+	case XF86XK_AudioNext:
+	case XF86XK_AudioRaiseVolume:
+	case XF86XK_AudioLowerVolume:
+	case XF86XK_AudioMute:
+	case XF86XK_AudioMicMute:
+	case XF86XK_MonBrightnessDown:
+	case XF86XK_MonBrightnessUp:
+		XSendEvent(dpy, DefaultRootWindow(dpy), True, KeyPressMask, &ev);
+		break;
 			case XK_Return:
 				passwd[len] = '\0';
 				errno = 0;
 				retval = pam_start(pam_service, hash, &pamc, &pamh);
 				color = PAM;
+
+				/* * MODIFICATION #1: 
+				 * Handle PAM color. Only call drawlogo on screen 0.
+				 * Flash other screens with BACKGROUND color.
+				 */
 				for (screen = 0; screen < nscreens; screen++) {
-					XSetWindowBackground(dpy, locks[screen]->win, locks[screen]->colors[color]);
-					XClearWindow(dpy, locks[screen]->win);
-					XRaiseWindow(dpy, locks[screen]->win);
+					if (locks[screen]->screen == 0) {
+						drawlogo(dpy, locks[screen], color);
+					} else {
+						/* Draw blank background on other screens */
+						XSetForeground(dpy, locks[screen]->gc, locks[screen]->colors[BACKGROUND]);
+						XFillRectangle(dpy, locks[screen]->drawable, locks[screen]->gc, 0, 0, locks[screen]->x, locks[screen]->y);
+						XCopyArea(dpy, locks[screen]->drawable, locks[screen]->win, locks[screen]->gc, 0, 0, locks[screen]->x, locks[screen]->y, 0, 0);
+						XSync(dpy, False);
+					}
 				}
-				XSync(dpy, False);
+				/* * Original XSync(dpy, False); is removed as drawlogo/else block handles syncing.
+				 */
 
 				if (retval == PAM_SUCCESS)
 					retval = pam_authenticate(pamh, 0);
@@ -326,7 +349,7 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 				break;
 			default:
 				if (num && !iscntrl((int)buf[0]) &&
-				    (len + num < sizeof(passwd))) {
+					(len + num < sizeof(passwd))) {
 					memcpy(passwd + len, buf, num);
 					len += num;
 				} else if (buf[0] == '\025') { /* ctrl-u clears input */
@@ -336,9 +359,22 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 				break;
 			}
 			color = len ? (caps ? CAPS : INPUT) : (failure || failonclear ? FAILED : INIT);
+			
+			/* * MODIFICATION #2: 
+			 * Handle all other colors (INPUT, FAILED, CAPS, INIT).
+			 * Only call drawlogo on screen 0.
+			 */
 			if (running && oldc != color) {
 				for (screen = 0; screen < nscreens; screen++) {
-					drawlogo(dpy, locks[screen], color);
+					if (locks[screen]->screen == 0) {
+						drawlogo(dpy, locks[screen], color);
+					} else {
+						/* Draw blank background on other screens */
+						XSetForeground(dpy, locks[screen]->gc, locks[screen]->colors[BACKGROUND]);
+						XFillRectangle(dpy, locks[screen]->drawable, locks[screen]->gc, 0, 0, locks[screen]->x, locks[screen]->y);
+						XCopyArea(dpy, locks[screen]->drawable, locks[screen]->win, locks[screen]->gc, 0, 0, locks[screen]->x, locks[screen]->y, 0, 0);
+						XSync(dpy, False);
+					}
 				}
 				oldc = color;
 			}
@@ -347,12 +383,12 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 			for (screen = 0; screen < nscreens; screen++) {
 				if (locks[screen]->win == rre->window) {
 					if (rre->rotation == RR_Rotate_90 ||
-					    rre->rotation == RR_Rotate_270)
+						rre->rotation == RR_Rotate_270)
 						XResizeWindow(dpy, locks[screen]->win,
-						              rre->height, rre->width);
+									  rre->height, rre->width);
 					else
 						XResizeWindow(dpy, locks[screen]->win,
-						              rre->width, rre->height);
+									  rre->width, rre->height);
 					XClearWindow(dpy, locks[screen]->win);
 					break;
 				}
