@@ -29,9 +29,15 @@ boxdraw_xinit(Display *dpy, Colormap cmap, XftDraw *draw, Visual *vis)
 int
 isboxdraw(Rune u)
 {
-	Rune block = u & ~0xff;
-	return (boxdraw && block == 0x2500 && boxdata[(uint8_t)u]) ||
-	       (boxdraw_braille && block == 0x2800);
+    Rune block = u & ~0xff;
+
+    /* Skip unsupported rounded corners and diagonals so the font can draw them */
+    if (u == 0x256D || u == 0x256E || u == 0x2570 || u == 0x256F ||
+        u == 0x2571 || u == 0x2572 || u == 0x2573)
+        return 0;
+
+    return (boxdraw && block == 0x2500 && boxdata[(uint8_t)u]) ||
+           (boxdraw_braille && block == 0x2800);
 }
 
 /* the "index" is actually the entire shape data encoded as ushort */
