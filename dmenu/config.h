@@ -10,7 +10,7 @@ static const float menu_height_ratio = 4.0f;  /* This is the ratio used in the o
 static char font[] = "monospace:size=10";
 static const char *fonts[] = {
 	font,
-	"monospace:size=10",
+	"NotoColorEmoji:size=14",
 };
 
 static char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
