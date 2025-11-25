@@ -46,7 +46,7 @@ static const Rule rules[] = {
     { "org.mozilla.Thunderbird",     NULL,          NULL,               1 << 2,    0,          0,          0,          0,       0   },
     { "qBittorrent",                 NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
     { "calibre",                     "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
-    { "discord",                     NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
+    { "WebCord",                     NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
     { TERMCLASS,                     NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
@@ -116,7 +116,7 @@ static const char *fileManager[]     = { TERMINAL, "-e", "yazi", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
 static const char *lockscreen[]      = { "slock", NULL };
-static const char *communicator[]    = { "discord", NULL };
+static const char *communicator[]    = { "webcord", NULL };
 
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
