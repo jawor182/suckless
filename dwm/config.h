@@ -35,7 +35,7 @@ static const XPoint stickyiconbb    = {4,8};	/* defines the bottom right corner 
 
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "brave"
+#define BROWSER "librewolf"
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -113,6 +113,7 @@ static const char *browser[]         = { BROWSER, NULL };
 static const char *email[]           = { "thunderbird", NULL };
 static const char *notes[]           = { TERMINAL,"-t","notes","-e","sh","-c","cd ~/dox/notes && $EDITOR", NULL};
 static const char *fileManager[]     = { TERMINAL, "-e", "yazi", NULL };
+static const char *guiFileManager[]  = { "pcmanfm-qt", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
 static const char *lockscreen[]      = { "slock", NULL };
@@ -200,6 +201,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_n,      spawn,          {.v = notes } },
     { MODKEY|ShiftMask,             XK_n,      togglescratch,  {.v = sprss }},
     { MODKEY,                       XK_f,      spawn,          {.v = fileManager } },
+    { MODKEY|Mod1Mask,              XK_f,      spawn,          {.v = guiFileManager } },
     { MODKEY,                       XK_p,      spawn,          {.v = passwords } },
     { MODKEY|ShiftMask,             XK_grave,  spawn,          SHCMD("dmenubookmarks select_browser") },
     { MODKEY,                       XK_grave,  spawn,          SHCMD("dmenubookmarks select") },
@@ -222,18 +224,6 @@ static const Key keys[] = {
     { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("playerctl -p mpd volume 0.05+") },
     { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("playerctl -p mpd volume 0.05-") },
     { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("playerctl -p mpd pause && playerctl -p mpd position 0") },
-	{ MODKEY,                       XK_u,      moveresize,     {.v = "0x 25y 0w 0h" } },
-	{ MODKEY,                       XK_i,      moveresize,     {.v = "0x -25y 0w 0h" } },
-	{ MODKEY,                       XK_o,      moveresize,     {.v = "25x 0y 0w 0h" } },
-	{ MODKEY,                       XK_y,      moveresize,     {.v = "-25x 0y 0w 0h" } },
-	{ MODKEY|Mod1Mask,              XK_u,      moveresize,     {.v = "0x 0y 0w 25h" } },
-	{ MODKEY|Mod1Mask,              XK_i,      moveresize,     {.v = "0x 0y 0w -25h" } },
-	{ MODKEY|Mod1Mask,              XK_o,      moveresize,     {.v = "0x 0y 25w 0h" } },
-	{ MODKEY|Mod1Mask,              XK_y,      moveresize,     {.v = "0x 0y -25w 0h" } },
-	{ MODKEY|ControlMask,           XK_i,      moveresizeedge, {.v = "t"} },
-	{ MODKEY|ControlMask,           XK_u,      moveresizeedge, {.v = "b"} },
-	{ MODKEY|ControlMask,           XK_y,      moveresizeedge, {.v = "l"} },
-	{ MODKEY|ControlMask,           XK_o,      moveresizeedge, {.v = "r"} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
