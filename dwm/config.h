@@ -112,7 +112,7 @@ static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
 static const char *email[]           = { "thunderbird", NULL };
 static const char *notes[]           = { TERMINAL,"-t","notes","-e","sh","-c","cd ~/dox/notes && $EDITOR", NULL};
-static const char *fileManager[]     = { TERMINAL, "-e", "yazi", NULL };
+static const char *fileManager[]     = { TERMINAL, "-e", "lfub", NULL };
 static const char *guiFileManager[]  = { "pcmanfm-qt", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
@@ -123,10 +123,10 @@ static const char *communicator[]    = { "discord", NULL };
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
 static const char *spsound[]    = {"s", TERMINAL, "-t", "pulsemixer","-e","pulsemixer", NULL};
 static const char *spnotes[]    = {"n", TERMINAL, "-t", "spnotes","-e","sh","-c","cd ~/dox/notes && $EDITOR", NULL};
-static const char *spfiles[]    = {"f", TERMINAL, "-t", "spfiles","-e","yazi", NULL};
+static const char *spfiles[]    = {"f", TERMINAL, "-t", "spfiles","-e","lfub", NULL};
 static const char *spsysmon[]   = {"M", TERMINAL, "-t", "spsysmon","-e","btop", NULL};
 static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
-static const char *sprss[]      = {"r", TERMINAL, "-t", "sprss","-e","newsboat", NULL};
+static const char *sprss[]      = {"r", TERMINAL, "-t", "sprss","-e","newsraft", NULL};
 
 
 /*
@@ -214,11 +214,10 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("screenshot") },
     { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("mpvq play") },
     { MODKEY|ShiftMask,             XK_a,      spawn,          SHCMD("mpvq addclip") },
-    { MODKEY|ShiftMask,             XK_e,      spawn,          SHCMD("dmenuunicode") },
-    { MODKEY|ShiftMask|ControlMask, XK_m,      spawn,          SHCMD("boomer") },
+    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("dmenuunicode") },
     { 0,                            XK_Print,  spawn,          SHCMD("screenshot") },
     { MODKEY|ShiftMask|Mod1Mask,    XK_space,  spawn,          SHCMD("playerctl -p mpv play-pause") },
-    { MODKEY|Mod1Mask,              XK_space,  spawn,          SHCMD("playerctl -p mpd play-pause") },
+    { MODKEY|Mod1Mask,              XK_p,      spawn,          SHCMD("playerctl -p mpd play-pause") },
     { MODKEY|Mod1Mask,              XK_period, spawn,          SHCMD("playerctl -p mpd next") },
     { MODKEY|Mod1Mask,              XK_comma,  spawn,          SHCMD("playerctl -p mpd previous") },
     { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("playerctl -p mpd volume 0.05+") },

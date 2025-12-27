@@ -21,9 +21,9 @@
     X("", "sb-mpd",         1, 3)     \
     X("", "sb-date",       10, 10)    \
     X("", "sb-volume",      1, 9)     \
-    X("", "sb-cpu",        30, 6)     \
-    X("", "sb-memory",     30, 5)     \
     X("", "sb-battery",     5, 8)     \
     X("", "sb-internet",    5, 7)     \
+    /*X("", "sb-cpu",        30, 6)     \
+    X("", "sb-memory",     30, 5)     \*/
 
 #endif  // CONFIG_H

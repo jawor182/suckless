@@ -53,7 +53,7 @@ static const int PAN_FRACTION = 5;
  * NOTE: higher cache size means better image reloading performance, but also
  * higher memory usage.
  */
-static const int CACHE_SIZE_MEM_PERCENTAGE = 3;          /* use 3% of total memory for cache */
+static const int CACHE_SIZE_MEM_PERCENTAGE = 5;          /* use 5% of total memory for cache */
 static const int CACHE_SIZE_LIMIT = 256 * 1024 * 1024;   /* but not above 256MiB */
 static const int CACHE_SIZE_FALLBACK = 32 * 1024 * 1024; /* fallback to 32MiB if we can't determine total memory */
 
@@ -82,10 +82,10 @@ static const bool TNS_FILTERS_IS_BLACKLIST = false;
 #ifdef INCLUDE_THUMBS_CONFIG
 
 /* thumbnail sizes in pixels (width == height): */
-static const int thumb_sizes[] = { 32, 64, 96, 128, 160, 196, 216, 256, 296, 320, 348};
+static const int thumb_sizes[] = { 32, 64, 96, 128, 160, 196, 216, 256, 296, 320, 348, 396, 428};
 
 /* thumbnail size at startup, index into thumb_sizes[]: */
-static const int THUMB_SIZE = 8;
+static const int THUMB_SIZE = 12;
 
 #endif
 #ifdef INCLUDE_MAPPINGS_CONFIG
