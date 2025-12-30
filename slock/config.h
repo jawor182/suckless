@@ -23,7 +23,7 @@ ResourcePref resources[] = {
 static const int failonclear = 1;
 
 /* time in seconds before the monitor shuts down */
-static const int monitortime = 60;
+static const int monitortime = 600;
 
 /* PAM service that's used for authentication */
 static const char* pam_service = "login";

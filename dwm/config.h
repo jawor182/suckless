@@ -64,7 +64,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static float mfact          = 0.5;  /* factor of master area size [0.05..0.95] */
 static int nmaster          = 1;    /* number of clients in master area */
-static int resizehints      = 0;    /* 1 means respect size hints in tiled resizals */
+static int resizehints      = 1;    /* 1 means respect size hints in tiled resizals */
 static int lockfullscreen   = 1;    /* 1 will force focus on the fullscreen window */
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
@@ -217,12 +217,12 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("dmenuunicode") },
     { 0,                            XK_Print,  spawn,          SHCMD("screenshot") },
     { MODKEY|ShiftMask|Mod1Mask,    XK_space,  spawn,          SHCMD("playerctl -p mpv play-pause") },
-    { MODKEY|Mod1Mask,              XK_p,      spawn,          SHCMD("playerctl -p mpd play-pause") },
-    { MODKEY|Mod1Mask,              XK_period, spawn,          SHCMD("playerctl -p mpd next") },
-    { MODKEY|Mod1Mask,              XK_comma,  spawn,          SHCMD("playerctl -p mpd previous") },
-    { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("playerctl -p mpd volume 0.05+") },
-    { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("playerctl -p mpd volume 0.05-") },
-    { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("playerctl -p mpd pause && playerctl -p mpd position 0") },
+    { MODKEY|Mod1Mask,              XK_p,      spawn,          SHCMD("playerctl -p mpd play-pause && pkill -RTMIN+3 dwmblocks") },
+    { MODKEY|Mod1Mask,              XK_period, spawn,          SHCMD("playerctl -p mpd next && pkill -RTMIN+3 dwmblocks") },
+    { MODKEY|Mod1Mask,              XK_comma,  spawn,          SHCMD("playerctl -p mpd previous && pkill -RTMIN+3 dwmblocks") },
+    { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("playerctl -p mpd volume 0.05") },
+    { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("playerctl -p mpd volume 0.05") },
+    { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("playerctl -p mpd pause && playerctl -p mpd position 0 && pkill -RTMIN+3 dwmblocks") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
