@@ -262,6 +262,7 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
     { MODKEY,               XK_v,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+	{ TERMMOD,              XK_N,           newterm,        {.i =  0} },
 	{ MODKEY,               XK_bracketleft, chgalpha,       {.f = -1} }, /* Decrease opacity */
 	{ MODKEY|ShiftMask,     XK_braceright,  chgalpha,       {.f =  0} }, /* Increase opacity */
 	{ MODKEY,               XK_bracketright,chgalpha,       {.f = +1} }, /* Reset opacity */
