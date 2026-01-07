@@ -50,14 +50,10 @@ static const Rule rules[] = {
     { TERMCLASS,                     NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
+	{ NULL,                          NULL,          "rss",              1 << 4,    0,          0,          0,         -1,       0   },
     { NULL,                          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
 	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'   },
-	{ NULL,                          NULL,          "pulsemixer",       0,         1,          1,          1,         -1,      's'   },
-	{ NULL,                          NULL,          "spnotes",          0,         1,          1,          1,         -1,      'n'   },
-	{ NULL,                          NULL,          "spfiles",          0,         1,          1,          1,         -1,      'f'   },
-	{ NULL,                          NULL,          "spsysmon",         0,         1,          1,          1,         -1,      'M'   },
 	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'   },
-	{ NULL,                          NULL,          "sprss",            0,         1,          1,          1,         -1,      'r'   },
 };
 
 
@@ -107,7 +103,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]        = { "dmenu_run", NULL };
+static const char *dmenucmd[]        = { "bemenu-run", NULL };
 static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
 static const char *email[]           = { "thunderbird", NULL };
@@ -118,15 +114,11 @@ static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
 static const char *lockscreen[]      = { "slock", NULL };
 static const char *communicator[]    = { "discord", NULL };
+static const char *rss[]             = {TERMINAL, "-t", "rss","-e","newsboat", NULL};
 
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
-static const char *spsound[]    = {"s", TERMINAL, "-t", "pulsemixer","-e","pulsemixer", NULL};
-static const char *spnotes[]    = {"n", TERMINAL, "-t", "spnotes","-e","sh","-c","cd ~/dox/notes && $EDITOR", NULL};
-static const char *spfiles[]    = {"f", TERMINAL, "-t", "spfiles","-e","lfub", NULL};
-static const char *spsysmon[]   = {"M", TERMINAL, "-t", "spsysmon","-e","btop", NULL};
 static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
-static const char *sprss[]      = {"r", TERMINAL, "-t", "sprss","-e","newsraft", NULL};
 
 
 /*
@@ -154,10 +146,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
-	{ MODKEY|ControlMask,           XK_s,      togglescratch,  {.v = spsound } },
-	{ MODKEY|ControlMask,           XK_n,      togglescratch,  {.v = spnotes } },
-	{ MODKEY|ControlMask,           XK_f,      togglescratch,  {.v = spfiles } },
-	{ MODKEY|ControlMask,           XK_m,      togglescratch,  {.v = spsysmon } },
 	{ MODKEY,                       XK_m,      togglescratch,  {.v = spmusic } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
@@ -199,7 +187,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_w,      spawn,          {.v = browser } },
     { MODKEY,                       XK_e,      spawn,          {.v = email } },
     { MODKEY,                       XK_n,      spawn,          {.v = notes } },
-    { MODKEY|ShiftMask,             XK_n,      togglescratch,  {.v = sprss }},
+    { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = rss }},
     { MODKEY,                       XK_f,      spawn,          {.v = fileManager } },
     { MODKEY|Mod1Mask,              XK_f,      spawn,          {.v = guiFileManager } },
     { MODKEY,                       XK_p,      spawn,          {.v = passwords } },
@@ -233,7 +221,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0}},
-	{ MODKEY|ControlMask,           XK_r,      quit,           {1} }, 
+	{ MODKEY,                       XK_r,      quit,           {1} }, 
 };
 
 /* button definitions */
