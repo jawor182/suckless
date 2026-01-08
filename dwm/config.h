@@ -50,7 +50,7 @@ static const Rule rules[] = {
     { TERMCLASS,                     NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
-	{ NULL,                          NULL,          "rss",              1 << 4,    0,          0,          0,         -1,       0   },
+	{ NULL,                          NULL,          "rss",              1 << 4,    0,          0,          0,          0,       0   },
     { NULL,                          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
 	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'   },
 	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'   },
@@ -208,8 +208,8 @@ static const Key keys[] = {
     { MODKEY|Mod1Mask,              XK_p,      spawn,          SHCMD("playerctl -p mpd play-pause && pkill -RTMIN+3 dwmblocks") },
     { MODKEY|Mod1Mask,              XK_period, spawn,          SHCMD("playerctl -p mpd next && pkill -RTMIN+3 dwmblocks") },
     { MODKEY|Mod1Mask,              XK_comma,  spawn,          SHCMD("playerctl -p mpd previous && pkill -RTMIN+3 dwmblocks") },
-    { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("playerctl -p mpd volume 0.05") },
-    { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("playerctl -p mpd volume 0.05") },
+    { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("playerctl -p mpd volume 0.05%-") },
+    { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("playerctl -p mpd volume 0.05%+") },
     { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("playerctl -p mpd pause && playerctl -p mpd position 0 && pkill -RTMIN+3 dwmblocks") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
