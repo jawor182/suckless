@@ -33,7 +33,7 @@ static char *colors[][3] = {
 
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "brave"
+#define BROWSER "librewolf"
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -52,6 +52,7 @@ static const Rule rules[] = {
     { NULL,                          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
 	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'   },
 	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'   },
+	{ NULL,                          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'c'   },
 };
 
 
@@ -101,7 +102,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]        = { "bemenu-run", NULL };
+static const char *dmenucmd[]        = { "dmenu_run", NULL };
 static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
 static const char *email[]           = { "thunderbird", NULL };
@@ -117,6 +118,7 @@ static const char *rss[]             = {TERMINAL, "-t", "rss","-e","newsboat", N
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
 static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
+static const char *spcalc[]     = {"c", TERMINAL, "-t", "spcalc","-e","calcurse", NULL};
 
 
 /*
@@ -145,6 +147,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
 	{ MODKEY,                       XK_m,      togglescratch,  {.v = spmusic } },
+	{ MODKEY|ControlMask,           XK_c,      togglescratch,  {.v = spcalc } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
@@ -199,7 +202,6 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("screenshot") },
     { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("mpvq play") },
     { MODKEY|ShiftMask,             XK_a,      spawn,          SHCMD("mpvq addclip") },
-    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("dmenuunicode") },
     { 0,                            XK_Print,  spawn,          SHCMD("screenshot") },
     { MODKEY|ShiftMask|Mod1Mask,    XK_space,  spawn,          SHCMD("playerctl -p mpv play-pause") },
     { MODKEY|Mod1Mask,              XK_p,      spawn,          SHCMD("mpc toggle && pkill -RTMIN+3 dwmblocks") },

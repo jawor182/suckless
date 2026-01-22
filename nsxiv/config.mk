@@ -17,7 +17,7 @@ HAVE_LIBFONTS = $(OPT_DEP_DEFAULT)
 HAVE_LIBEXIF  = $(OPT_DEP_DEFAULT)
 
 # CFLAGS, any additional compiler flags goes here
-CFLAGS = -Wall -pedantic -O2 -DNDEBUG
+CFLAGS = -Wall -pedantic -O3 -DNDEBUG
 # Uncomment for a debug build using gcc/clang
 # CFLAGS = -Wall -pedantic -DDEBUG -g3 -fsanitize=address,undefined
 # LDFLAGS = $(CFLAGS)
