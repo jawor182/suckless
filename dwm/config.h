@@ -48,11 +48,12 @@ static const Rule rules[] = {
     { TERMCLASS,                     NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
+	{ NULL,                          NULL,          "email",            1 << 2,    0,          0,          0,          0,       0   },
 	{ NULL,                          NULL,          "rss",              1 << 4,    0,          0,          0,          0,       0   },
     { NULL,                          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
 	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'   },
 	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'   },
-	{ NULL,                          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'c'   },
+	{ NULL,                          NULL,          "spcal",           0,         1,          1,          1,         -1,      'c'   },
 };
 
 
@@ -105,9 +106,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[]        = { "dmenu_run", NULL };
 static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
-static const char *email[]           = { "thunderbird", NULL };
-static const char *notes[]           = { TERMINAL,"-t","notes","-e","sh","-c","cd ~/dox/notes && $EDITOR", NULL};
-static const char *fileManager[]     = { TERMINAL, "-e", "lfub", NULL };
+static const char *email[]           = { TERMINAL,"-t", "email", "-e", "neomutt", NULL };
+static const char *notes[]           = { TERMINAL,"-t", "notes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
+static const char *fileManager[]     = { TERMINAL,"-t", "files", "-e", "yazi", NULL };
 static const char *guiFileManager[]  = { "pcmanfm-qt", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
@@ -118,7 +119,7 @@ static const char *rss[]             = {TERMINAL, "-t", "rss","-e","newsboat", N
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
 static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
-static const char *spcalc[]     = {"c", TERMINAL, "-t", "spcalc","-e","calcurse", NULL};
+static const char *spcal[]      = {"c", TERMINAL, "-t", "spcal","-e","calcurse", NULL};
 
 
 /*
@@ -147,7 +148,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
 	{ MODKEY,                       XK_m,      togglescratch,  {.v = spmusic } },
-	{ MODKEY|ControlMask,           XK_c,      togglescratch,  {.v = spcalc } },
+	{ MODKEY|ControlMask,           XK_c,      togglescratch,  {.v = spcal } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
