@@ -81,7 +81,7 @@ static const bool TNS_FILTERS_IS_BLACKLIST = false;
 #endif
 #ifdef INCLUDE_THUMBS_CONFIG
 
-static const int thumb_sizes[] = { 32, 64, 96, 128, 160, 224, 256, 288, 332, 380, 448, 512, 640 };
+static const int thumb_sizes[] = { 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448, 480, 512, 544, 576, 608, 640 };
 
 static const int THUMB_SIZE = 8;
 
