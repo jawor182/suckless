@@ -83,7 +83,7 @@ static const bool TNS_FILTERS_IS_BLACKLIST = false;
 
 static const int thumb_sizes[] = { 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448, 480, 512, 544, 576, 608, 640 };
 
-static const int THUMB_SIZE = 8;
+static const int THUMB_SIZE = 10;
 
 #endif
 #ifdef INCLUDE_MAPPINGS_CONFIG

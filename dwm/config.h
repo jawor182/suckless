@@ -51,9 +51,11 @@ static const Rule rules[] = {
 	{ NULL,                          NULL,          "email",            1 << 2,    0,          0,          0,          0,       0   },
 	{ NULL,                          NULL,          "rss",              1 << 4,    0,          0,          0,          0,       0   },
     { NULL,                          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
-	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'   },
-	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'   },
-	{ NULL,                          NULL,          "spcal",           0,         1,          1,          1,         -1,      'c'   },
+	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'  },
+	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'  },
+	{ NULL,                          NULL,          "spcal",            0,         1,          1,          1,         -1,      'c'  },
+	{ NULL,                          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'C'  },
+	{ NULL,                          NULL,          "spnotes",         0,         1,          1,          1,         -1,      'n'   },
 };
 
 
@@ -120,7 +122,8 @@ static const char *rss[]             = {TERMINAL, "-t", "rss","-e","newsboat", N
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
 static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
 static const char *spcal[]      = {"c", TERMINAL, "-t", "spcal","-e","calcurse", NULL};
-
+static const char *spcalc[]     = {"C", TERMINAL, "-t", "spcalc","-e","qalc", NULL};
+static const char *spnotes[]    = {"n", TERMINAL, "-t", "spnotes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
 
 /*
  * Xresources preferences to load at startup
@@ -149,6 +152,8 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
 	{ MODKEY,                       XK_m,      togglescratch,  {.v = spmusic } },
 	{ MODKEY|ControlMask,           XK_c,      togglescratch,  {.v = spcal } },
+	{ MODKEY|ControlMask,           XK_q,      togglescratch,  {.v = spcalc } },
+	{ MODKEY|ControlMask,           XK_n,      togglescratch,  {.v = spnotes } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
@@ -195,6 +200,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_grave,  spawn,          SHCMD("dmenubookmarks select_browser") },
     { MODKEY,                       XK_grave,  spawn,          SHCMD("dmenubookmarks select") },
     { MODKEY|Mod1Mask,              XK_b,      spawn,          SHCMD("dmenubookmarks add") },
+    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("dmenuunicode") },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = books } },
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = communicator } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("colorpicker") },

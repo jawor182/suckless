@@ -7,7 +7,7 @@ static int min_width = 800;                    /* minimum width when centered */
 static const float menu_height_ratio = 2.0f;  /* This is the ratio used in the original calculation */
 
 /* -fn option overrides fonts[0]; default X11 font or font set */
-static char font[] = "monospace:size=10";
+static char font[] = "JetBrainsMonoNerdFont:size=16";
 static const char *fonts[] = {
 	font,
 	"NotoColorEmoji:size=14",
