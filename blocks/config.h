@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 // String used to delimit block outputs in the status.
-#define DELIMITER " "
+#define DELIMITER " | "
 
 // Maximum number of Unicode characters that a block can output.
 #define MAX_BLOCK_OUTPUT_LENGTH 100
@@ -18,12 +18,13 @@
 
 // Define blocks for the status feed as X(icon, cmd, interval, signal).
 #define BLOCKS(X)                     \
-    X("", "sb-mpd",         1, 3)     \
     X("", "sb-date",       10, 10)    \
     X("", "sb-volume",      1, 9)     \
     X("", "sb-battery",     5, 8)     \
+    X("", "sb-weather",    60, 6)     \
     X("", "sb-internet",    5, 7)     \
-    /*X("", "sb-cpu",        30, 6)     \
+    /* X("", "sb-mpd",         1, 3)     \
+    /X("", "sb-cpu",        30, 6)     \
     X("", "sb-memory",     30, 5)     \*/
 
 #endif  // CONFIG_H
