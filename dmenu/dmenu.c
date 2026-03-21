@@ -128,7 +128,7 @@ cleanup(void)
 
 	XUngrabKeyboard(dpy, CurrentTime);
 	for (i = 0; i < SchemeLast; i++)
-		free(scheme[i]);
+		drw_scm_free(drw, scheme[i], 2);
 	for (i = 0; items && items[i].text; ++i)
 		free(items[i].text);
 	free(items);
@@ -439,7 +439,7 @@ keypress(XKeyEvent *ev)
 
 	switch(ksym) {
 	default:
-insert:
+	insert:
 		if (!iscntrl((unsigned char)*buf))
 			insert(buf, len);
 		break;
@@ -589,7 +589,8 @@ readstdin(void)
 			line[len - 1] = '\0';
 		if (!(items[i].text = strdup(line)))
 			die("strdup:");
-		items[i].width = TEXTW(line);
+    if (centered)
+		  items[i].width = TEXTW(line);
 
 		items[i].out = 0;
 	}
@@ -850,6 +851,10 @@ main(int argc, char *argv[])
 			colors[SchemeSel][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-sf"))  /* selected foreground color */
 			colors[SchemeSel][ColFg] = argv[++i];
+		else if (!strcmp(argv[i], "-ob"))  /* outline background color */
+			colors[SchemeOut][ColBg] = argv[++i];
+		else if (!strcmp(argv[i], "-of"))  /* outline foreground color */
+			colors[SchemeOut][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
 			embed = argv[++i];
 		else

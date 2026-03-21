@@ -9,8 +9,8 @@ static const float menu_height_ratio = 2.0f;  /* This is the ratio used in the o
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static char font[] = "JetBrainsMonoNerdFont:size=16";
 static const char *fonts[] = {
-	font,
-	"NotoColorEmoji:size=14",
+    font,
+    "NotoColorEmoji:size=14",
 };
 
 static char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
@@ -19,12 +19,14 @@ static char normfgcolor[] = "#bbbbbb";
 static char normbgcolor[] = "#222222";
 static char selfgcolor[]  = "#eeeeee";
 static char selbgcolor[]  = "#005577";
+
 static char *colors[SchemeLast][2] = {
 	/*     fg         bg       */
 	[SchemeNorm] = { normfgcolor, normbgcolor },
 	[SchemeSel]  = { selfgcolor,  selbgcolor  },
 	[SchemeOut]  = { "#000000",   "#00ffff" },
 };
+
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines      = 0;
 
