@@ -45,6 +45,7 @@ static const Rule rules[] = {
     { "qBittorrent",                 NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
     { "calibre",                     "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
     { "discord",                     NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
+    { "steam",                       NULL,          NULL,               1 << 2,    0,          0,          0,          1,       0   },
     { TERMCLASS,                     NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
@@ -200,7 +201,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_grave,  spawn,          SHCMD("dmenubookmarks select_browser") },
     { MODKEY,                       XK_grave,  spawn,          SHCMD("dmenubookmarks select") },
     { MODKEY|Mod1Mask,              XK_b,      spawn,          SHCMD("dmenubookmarks add") },
-    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("dmenuunicode") },
+    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("fzfunicode") },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = books } },
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = communicator } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("colorpicker") },
