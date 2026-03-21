@@ -201,7 +201,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_grave,  spawn,          SHCMD("dmenubookmarks select_browser") },
     { MODKEY,                       XK_grave,  spawn,          SHCMD("dmenubookmarks select") },
     { MODKEY|Mod1Mask,              XK_b,      spawn,          SHCMD("dmenubookmarks add") },
-    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("fzfunicode") },
+    { MODKEY|ShiftMask,             XK_u,      spawn,          SHCMD("dmenuunicode") },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = books } },
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = communicator } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("colorpicker") },
