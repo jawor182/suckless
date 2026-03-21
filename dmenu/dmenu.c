@@ -45,6 +45,8 @@ static struct item *items = NULL;
 static struct item *matches, *matchend;
 static struct item *prev, *curr, *next, *sel;
 static int mon = -1, screen;
+static int matchcount;
+static int dlines;
 
 static Atom clip, utf8;
 static Display *dpy;
@@ -100,7 +102,7 @@ calcoffsets(void)
 	int i, n;
 
 	if (lines > 0)
-		n = lines * bh;
+		dynamic ? (n = dlines * bh) : (n = lines * bh);
 	else
 		n = mw - (promptw + inputw + TEXTW("<") + TEXTW(">"));
 	/* calculate which items will begin the next page and previous page */
@@ -174,6 +176,12 @@ drawmenu(void)
 	unsigned int curpos;
 	struct item *item;
 	int x = 0, y = 0, w;
+
+  if (dynamic) {
+        mh = (dlines + 1) * bh;
+        drw_resize(drw, mw, mh);
+        XResizeWindow(dpy, win, mw, mh);
+  }
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	drw_rect(drw, 0, 0, mw, mh, 1, 1);
@@ -271,6 +279,7 @@ match(void)
 	len = tokc ? strlen(tokv[0]) : 0;
 
 	matches = lprefix = lsubstr = matchend = prefixend = substrend = NULL;
+  matchcount = 0;
 	textsize = strlen(text) + 1;
 	for (item = items; item && item->text; item++) {
 		for (i = 0; i < tokc; i++)
@@ -279,12 +288,18 @@ match(void)
 		if (i != tokc) /* not all tokens match */
 			continue;
 		/* exact matches go first, then prefixes, then substrings */
-		if (!tokc || !fstrncmp(text, item->text, textsize))
+		if (!tokc || !fstrncmp(text, item->text, textsize)){
 			appenditem(item, &matches, &matchend);
-		else if (!fstrncmp(tokv[0], item->text, len))
+      matchcount++;
+    }
+		else if (!fstrncmp(tokv[0], item->text, len)){
 			appenditem(item, &lprefix, &prefixend);
-		else
+      matchcount++;
+    }
+		else{
 			appenditem(item, &lsubstr, &substrend);
+      matchcount++;
+    }
 	}
 	if (lprefix) {
 		if (matches) {
@@ -303,6 +318,9 @@ match(void)
 		matchend = substrend;
 	}
 	curr = sel = matches;
+  if (dynamic){
+    dlines = MIN(lines, matchcount);
+  }
 	calcoffsets();
 }
 
@@ -711,7 +729,7 @@ setup(void)
 	/* calculate menu geometry */
 	bh = drw->fonts->h + 2;
 	lines = MAX(lines, 0);
-	mh = (lines + 1) * bh;
+	dynamic ? (mh = (dlines + 1) * bh) : (mh = (lines + 1) * bh);
 	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 #ifdef XINERAMA
 	i = 0;
@@ -829,6 +847,8 @@ main(int argc, char *argv[])
 			fast = 1;
 		else if (!strcmp(argv[i], "-c"))   /* centers dmenu on screen */
 			centered = 1;
+		else if (!strcmp(argv[i], "-d"))   /* dynamic drawing */
+			dynamic = 1;
 		else if (!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
 			fstrncmp = strncasecmp;
 			fstrstr = cistrstr;

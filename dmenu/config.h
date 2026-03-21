@@ -2,6 +2,7 @@
 /* Default settings; can be overriden by command line. */
 
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
+static int dynamic = 0;                    /* -d option; dynamic drawing */
 static int centered = 0;                    /* -c option; centers dmenu on screen */
 static int min_width = 800;                    /* minimum width when centered */
 static const float menu_height_ratio = 2.0f;  /* This is the ratio used in the original calculation */
