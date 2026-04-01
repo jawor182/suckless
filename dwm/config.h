@@ -33,7 +33,7 @@ static char *colors[][3] = {
 
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "librewolf"
+#define BROWSER "brave"
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -56,7 +56,7 @@ static const Rule rules[] = {
 	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'  },
 	{ NULL,                          NULL,          "spcal",            0,         1,          1,          1,         -1,      'c'  },
 	{ NULL,                          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'C'  },
-	{ NULL,                          NULL,          "spnotes",         0,         1,          1,          1,         -1,      'n'   },
+	{ NULL,                          NULL,          "spnotes",          0,         1,          1,          1,         -1,      'n'   },
 };
 
 
@@ -109,7 +109,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[]        = { "dmenu_run", NULL };
 static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
-static const char *email[]           = { TERMINAL,"-t", "email", "-e", "aerc", NULL };
+static const char *email[]           = { TERMINAL,"-t", "email", "-e", "neomutt", NULL };
 static const char *notes[]           = { TERMINAL,"-t", "notes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
 static const char *fileManager[]     = { TERMINAL,"-t", "files", "-e", "lfub", NULL };
 static const char *guiFileManager[]  = { "pcmanfm-qt", NULL };
@@ -121,7 +121,7 @@ static const char *rss[]             = {TERMINAL, "-t", "rss","-e","newsboat", N
 
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
-static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
+static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","ncmpcpp", NULL};
 static const char *spcal[]      = {"c", TERMINAL, "-t", "spcal","-e","calcurse", NULL};
 static const char *spcalc[]     = {"C", TERMINAL, "-t", "spcalc","-e","qalc", NULL};
 static const char *spnotes[]    = {"n", TERMINAL, "-t", "spnotes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
@@ -163,13 +163,14 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_z,      incrgaps,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_z,      incrgaps,       {.i = -1 } },
+	{ MODKEY,                       XK_x,      incrgaps,       {.i = -1 } },
 	{ MODKEY,                       XK_g,      togglegaps,     {0} },
 	{ MODKEY|ShiftMask,             XK_g,      defaultgaps,    {0} },
     { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_v,      setlayout,      {.v = &layouts[13]} },
 	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
@@ -218,6 +219,7 @@ static const Key keys[] = {
     { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("mpc volume -5") },
     { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("mpc volume +5") },
     { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("mpc pause && mpc seek 0 && pkill -RTMIN+3 dwmblocks") },
+    { MODKEY|Mod1Mask,              XK_0,      spawn,          SHCMD("mpc seek 0 && pkill -RTMIN+3 dwmblocks") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
