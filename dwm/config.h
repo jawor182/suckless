@@ -38,25 +38,26 @@ static char *colors[][3] = {
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-    /* class                         instance       title               tags mask  isfloating  isterminal  noswallow  monitor  scratchkey*/
-    { "mpv",                         "mpvq",        NULL,               0,         0,          0,          0,          1,       0   },
-    { "KeePassXC",                   NULL,          NULL,               1 << 8,    0,          0,          0,          0,       0   },
-    { "org.mozilla.Thunderbird",     NULL,          NULL,               1 << 2,    0,          0,          0,          0,       0   },
-    { "qBittorrent",                 NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
-    { "calibre",                     "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
-    { "discord",                     NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
-    { "steam",                       NULL,          NULL,               1 << 2,    0,          0,          0,          1,       0   },
-    { TERMCLASS,                     NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
-    { "floatingTerm",                NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
-    { "Ghostscript",                 NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
-	{ NULL,                          NULL,          "email",            1 << 2,    0,          0,          0,          0,       0   },
-	{ NULL,                          NULL,          "rss",              1 << 4,    0,          0,          0,          0,       0   },
-    { NULL,                          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
-	{ NULL,                          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'  },
-	{ NULL,                          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'  },
-	{ NULL,                          NULL,          "spcal",            0,         1,          1,          1,         -1,      'c'  },
-	{ NULL,                          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'C'  },
-	{ NULL,                          NULL,          "spnotes",          0,         1,          1,          1,         -1,      'n'   },
+    /* class                         role           instance       title               tags mask  isfloating  isterminal  noswallow  monitor  scratchkey*/
+    { "mpv",                         NULL,          "mpvq",        NULL,               0,         0,          0,          0,          1,       0   },
+    { "KeePassXC",                   NULL,          NULL,          NULL,               1 << 8,    0,          0,          0,          0,       0   },
+    { "org.mozilla.Thunderbird",     NULL,          NULL,          NULL,               1 << 2,    0,          0,          0,          0,       0   },
+    { "qBittorrent",                 NULL,          NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
+    { "calibre",                     NULL,          "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
+    { "discord",                     NULL,          NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
+    { "steam",                       NULL,          NULL,          NULL,               1 << 2,    0,          0,          0,          1,       0   },
+    { TERMCLASS,                     NULL,          NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
+    { "floatingTerm",                NULL,          NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
+    { "Ghostscript",                 NULL,          NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
+    { NULL,                          "pop-up",      NULL,          NULL,               0,         1,          0,          0,         -1,       0   },
+	{ NULL,                          NULL,          NULL,          "email",            1 << 2,    0,          0,          0,          0,       0   },
+	{ NULL,                          NULL,          NULL,          "rss",              1 << 4,    0,          0,          0,          0,       0   },
+    { NULL,                          NULL,          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
+	{ NULL,                          NULL,          NULL,          "spterm",           0,         1,          1,          1,         -1,      't'  },
+	{ NULL,                          NULL,          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'  },
+	{ NULL,                          NULL,          NULL,          "spcal",            0,         1,          1,          1,         -1,      'c'  },
+	{ NULL,                          NULL,          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'C'  },
+	{ NULL,                          NULL,          NULL,          "spnotes",          0,         1,          1,          1,         -1,      'n'   },
 };
 
 
