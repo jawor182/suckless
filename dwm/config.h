@@ -50,6 +50,7 @@ static const Rule rules[] = {
     { "floatingTerm",                NULL,          NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
     { NULL,                          "pop-up",      NULL,          NULL,               0,         1,          0,          0,         -1,       0   },
+    { NULL,                          "About",       NULL,          NULL,               0,         1,          0,          0,         -1,       0   },
 	  { NULL,                          NULL,          NULL,          "email",            1 << 2,    0,          0,          0,          0,       0   },
 	  { NULL,                          NULL,          NULL,          "rss",              1 << 4,    0,          0,          0,          0,       0   },
     { NULL,                          NULL,          NULL,          "Event Tester",     0,         0,          0,          1,         -1,       0   }, /* xev */
