@@ -13,7 +13,7 @@ static int smartgaps                = 0;        /* 1 means no outer gap when the
 static int showbar                  = 1;        /* 0 means no bar */
 static int topbar                   = 1;        /* 0 means bottom bar */
 static int swallowfloating          = 1;        /* 1 means swallow floating windows by default */
-static const int refreshrate        = 240;
+static int refreshrate              = 240;
 static int iconsize                 = 32;
 static int iconspacing              = 12;
 static char font[]                  = { "JetBrainsMonoNerdFont:size=16:antialias=true"};
