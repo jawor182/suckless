@@ -987,6 +987,10 @@ tsetdirt(int top, int bot)
 {
 	int i;
 
+    if (term.row <= 0){
+        return;
+    }
+
 	LIMIT(top, 0, term.row-1);
 	LIMIT(bot, 0, term.row-1);
 
@@ -2119,6 +2123,19 @@ strhandle(void)
 				tfulldirt();
 			}
 			return;
+                case 110:
+                case 111:
+                case 112:
+                    if (narg != 1)
+                        break;
+                    if ((j = par - 110) < 0 || j >= LEN(osc_table))
+                        break; /* shouldn't be possible */
+                    if (xsetcolorname(osc_table[j].idx, NULL)) {
+                        fprintf(stderr, "erresc: %s color not found\n", osc_table[j].str);
+                    } else {
+                        tfulldirt();
+                    }
+                    return;
 		}
 		break;
 	case 'k': /* old title set compatibility */
@@ -2551,6 +2568,7 @@ eschandle(uchar ascii)
 		resettitle();
 		xloadcols();
 		xsetmode(0, MODE_HIDE);
+		xsetmode(0, MODE_BRCKTPASTE);
 		break;
 	case '=': /* DECPAM -- Application keypad */
 		xsetmode(1, MODE_APPKEYPAD);
