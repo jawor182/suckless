@@ -45,7 +45,7 @@ static const Rule rules[] = {
     { "qBittorrent",                 NULL,          NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
     { "calibre",                     NULL,          "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
     { "discord",                     NULL,          NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
-    { "steam",                       NULL,          NULL,          NULL,               1 << 2,    0,          0,          0,          1,       0   },
+    { "steam",                       NULL,          NULL,          "Steam",            1 << 2,    0,          0,          0,          1,       0   },
     { TERMCLASS,                     NULL,          NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
