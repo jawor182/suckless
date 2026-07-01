@@ -33,13 +33,13 @@ static char *colors[][3] = {
 
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "librewolf"
+#define BROWSER "helium-browser"
 
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
     /* class                         role           instance       title               tags mask  isfloating  isterminal  noswallow  monitor  scratchkey*/
-    { "mpv",                         NULL,          "mpvq",        NULL,               0,         0,          0,          0,          1,       0   },
+    { "mpvq",                        NULL,          NULL,          NULL,               0,         0,          0,          0,          1,       0   },
     { "KeePassXC",                   NULL,          NULL,          NULL,               1 << 8,    0,          0,          0,          0,       0   },
     { "org.mozilla.Thunderbird",     NULL,          NULL,          NULL,               1 << 2,    0,          0,          0,          0,       0   },
     { "qBittorrent",                 NULL,          NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
