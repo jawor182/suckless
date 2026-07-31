@@ -1,21 +1,8 @@
 static unsigned int borderpx        = 4;        /* border pixel of windows */
 static unsigned int snap            = 32;       /* snap pixel */
-static unsigned int gappih          = 8;        /* horiz inner gap between windows */
-static unsigned int gappiv          = 8;        /* vert inner gap between windows */
-static unsigned int gappoh          = 8;        /* horiz outer gap between windows and screen edge */
-static unsigned int gappov          = 8;        /* vert outer gap between windows and screen edge */
-static unsigned int systraypinning  = 1;        /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static unsigned int systrayspacing  = 2;        /* systray spacing */
-static int systraypinningfailfirst  = 1;        /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static unsigned int systrayiconsize = 32;       /* systray icon size in px */
-static int showsystray              = 1;        /* 0 means no systray */
-static int smartgaps                = 0;        /* 1 means no outer gap when there is only one window */
+static int swallowfloating          = 1;        /* 1 means swallow floating windows by default */
 static int showbar                  = 1;        /* 0 means no bar */
 static int topbar                   = 1;        /* 0 means bottom bar */
-static int swallowfloating          = 1;        /* 1 means swallow floating windows by default */
-static int refreshrate              = 240;
-static int iconsize                 = 32;
-static int iconspacing              = 12;
 static char font[]                  = { "JetBrainsMonoNerdFont:size=16:antialias=true"};
 static char font2[]                 = { "NotoColorEmoji:size=14:antialias=true"};
 static const char *fonts[]          = { font,font2 };
@@ -41,11 +28,11 @@ static const Rule rules[] = {
     /* class                         role           instance       title               tags mask  isfloating  isterminal  noswallow  monitor  scratchkey*/
     { "mpv",                         NULL,          "mpvq",        NULL,               0,         0,          0,          0,          1,       0   },
     { "KeePassXC",                   NULL,          NULL,          NULL,               1 << 8,    0,          0,          0,          0,       0   },
-    { "org.mozilla.Thunderbird",     NULL,          NULL,          NULL,               1 << 2,    0,          0,          0,          0,       0   },
     { "qBittorrent",                 NULL,          NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
     { "calibre",                     NULL,          "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
     { "discord",                     NULL,          NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
-    { "steam",                       NULL,          NULL,          "Steam",            1 << 2,    0,          0,          0,          1,       0   },
+    { "steam",                       NULL,          NULL,          "Steam",            1 << 2,    0,          0,          1,          1,       0   },
+    { "obsidian",                    NULL,          NULL,          NULL,               1 << 5,    0,          0,          0,          0,       0   },
     { TERMCLASS,                     NULL,          NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
@@ -63,31 +50,17 @@ static const Rule rules[] = {
 
 
 /* layout(s) */
-static float mfact          = 0.5;  /* factor of master area size [0.05..0.95] */
-static int nmaster          = 1;    /* number of clients in master area */
-static int resizehints      = 1;    /* 1 means respect size hints in tiled resizals */
-static int lockfullscreen   = 1;    /* 1 will force focus on the fullscreen window */
-
-#define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
-#include "vanitygaps.c"
+static float mfact              = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster              = 1;    /* number of clients in master area */
+static int resizehints          = 1;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int refreshrate    = 240;  /* refresh rate (per second) for client move/resize */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    
-	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
-	{ "###",      nrowgrid },
-	{ "---",      horizgrid },
-	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
+	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ NULL,       NULL },
+	{ "[M]",      monocle },
 };
 
 /* key definitions */
@@ -97,9 +70,6 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-#define STACKKEYS(MOD,ACTION) \
-	{ MOD, XK_j,     ACTION##stack, {.i = INC(+1) } }, \
-	{ MOD, XK_k,     ACTION##stack, {.i = INC(-1) } }, \
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -112,14 +82,16 @@ static const char *dmenucmd[]        = { "dmenu_run", NULL };
 static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
 static const char *email[]           = { TERMINAL,"-t", "email", "-e", "neomutt", NULL };
-static const char *notes[]           = { TERMINAL,"-t", "notes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
+// static const char *notes[]           = { TERMINAL,"-t", "notes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
+static const char *notes[]           = { "obsidian", NULL };
 static const char *fileManager[]     = { TERMINAL,"-t", "files", "-e", "lfub", NULL };
+static const char *sounds[]          = { TERMINAL,"-c", "floatingTerm", "-e", "pulsemixer", NULL};
 static const char *guiFileManager[]  = { "pcmanfm-qt", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
 static const char *lockscreen[]      = { "slock", NULL };
 static const char *communicator[]    = { "discord", NULL };
-static const char *rss[]             = {TERMINAL, "-t", "rss","-e","newsboat", NULL};
+static const char *rss[]             = { TERMINAL, "-t", "rss","-e","newsboat", NULL};
 
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
@@ -128,56 +100,54 @@ static const char *spcal[]      = {"c", TERMINAL, "-t", "spcal","-e","calcurse",
 static const char *spcalc[]     = {"C", TERMINAL, "-t", "spcalc","-e","qalc", NULL};
 static const char *spnotes[]    = {"n", TERMINAL, "-t", "spnotes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
 
+
 /*
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-  { "normbgcolor",          STRING,  &normbgcolor },
-  { "normbordercolor",      STRING,  &normbordercolor },
-  { "normfgcolor",          STRING,  &normfgcolor },
-  { "selbgcolor",           STRING,  &selbgcolor },
-  { "selbordercolor",       STRING,  &selbordercolor },
-  { "selfgcolor",           STRING,  &selfgcolor },
-  { "borderpx",          	INTEGER, &borderpx },
-  { "snap",          		INTEGER, &snap },
-  { "showbar",          	INTEGER, &showbar },
-  { "topbar",          	    INTEGER, &topbar },
-  { "nmaster",          	INTEGER, &nmaster },
-  { "resizehints",       	INTEGER, &resizehints },
-  { "mfact",      	 	    FLOAT,   &mfact },
+		{ "font",               STRING,  &font },
+		{ "font2",              STRING,  &font2 },
+		{ "normbgcolor",        STRING,  &normbgcolor },
+		{ "normbordercolor",    STRING,  &normbordercolor },
+		{ "normfgcolor",        STRING,  &normfgcolor },
+		{ "selbgcolor",         STRING,  &selbgcolor },
+		{ "selbordercolor",     STRING,  &selbordercolor },
+		{ "selfgcolor",         STRING,  &selfgcolor },
+		{ "borderpx",          	INTEGER, &borderpx },
+		{ "snap",          		INTEGER, &snap },
+		{ "showbar",          	INTEGER, &showbar },
+		{ "topbar",          	INTEGER, &topbar },
+		{ "nmaster",          	INTEGER, &nmaster },
+		{ "resizehints",       	INTEGER, &resizehints },
+		{ "mfact",      	 	FLOAT,   &mfact },
 };
-
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+    { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
+	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
+    { MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
 	{ MODKEY,                       XK_m,      togglescratch,  {.v = spmusic } },
 	{ MODKEY|ControlMask,           XK_c,      togglescratch,  {.v = spcal } },
 	{ MODKEY|ControlMask,           XK_q,      togglescratch,  {.v = spcalc } },
 	{ MODKEY|ControlMask,           XK_n,      togglescratch,  {.v = spnotes } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	STACKKEYS(MODKEY,                          focus)
-	STACKKEYS(MODKEY|ShiftMask,                push)
+	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_z,      incrgaps,       {.i = +1 } },
-	{ MODKEY,                       XK_x,      incrgaps,       {.i = -1 } },
-	{ MODKEY,                       XK_g,      togglegaps,     {0} },
-	{ MODKEY|ShiftMask,             XK_g,      defaultgaps,    {0} },
-    { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_v,      setlayout,      {.v = &layouts[13]} },
-	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
-	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_v,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY,                       XK_v,      togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -197,6 +167,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_w,      spawn,          {.v = browser } },
     { MODKEY,                       XK_e,      spawn,          {.v = email } },
     { MODKEY,                       XK_n,      spawn,          {.v = notes } },
+    { MODKEY,                       XK_s,      spawn,          {.v = sounds } },
     { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = rss }},
     { MODKEY,                       XK_f,      spawn,          {.v = fileManager } },
     { MODKEY|Mod1Mask,              XK_f,      spawn,          {.v = guiFileManager } },
@@ -231,7 +202,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0}},
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY,                       XK_r,      quit,           {1} }, 
 };
 
@@ -239,10 +210,11 @@ static const Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      { .v = &layouts[0] } },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      { .v = &layouts[13] } },
+	{ ClkLtSymbol,          0,              Button1,        setlayout,      {.v = &layouts[0]} },
+	{ ClkLtSymbol,          0,              Button2,        setlayout,      {.v = &layouts[2]} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[1]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
+    { ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
 	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
 	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
 	{ ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 4} },
