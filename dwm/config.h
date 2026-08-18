@@ -29,10 +29,12 @@ static const Rule rules[] = {
     { "mpv",                         NULL,          "mpvq",        NULL,               0,         0,          0,          0,          1,       0   },
     { "KeePassXC",                   NULL,          NULL,          NULL,               1 << 8,    0,          0,          0,          0,       0   },
     { "qBittorrent",                 NULL,          NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
+    { "FreeCAD",                     NULL,          NULL,          NULL,               1 << 6,    0,          0,          0,          0,       0   },
+    { "OrcaSlicer",                  NULL,          NULL,          NULL,               1 << 3,    0,          0,          0,          0,       0   },
+    { "md.obsidian.Obsidian",        NULL,          NULL,          NULL,               1 << 5,    0,          0,          0,          0,       0   },
     { "calibre",                     NULL,          "calibre-gui", NULL,               1 << 3,    0,          0,          0,          0,       0   },
     { "discord",                     NULL,          NULL,          NULL,               1 << 3,    0,          0,          0,          1,       0   },
     { "steam",                       NULL,          NULL,          "Steam",            1 << 2,    0,          0,          1,          1,       0   },
-    { "md.Obsidian",                 NULL,          NULL,          NULL,               1 << 5,    0,          0,          0,          0,       0   },
     { TERMCLASS,                     NULL,          NULL,          NULL,               0,         0,          1,          0,         -1,       0   },
     { "floatingTerm",                NULL,          NULL,          NULL,               0,         1,          1,          0,         -1,       0   },
     { "Ghostscript",                 NULL,          NULL,          NULL,               0,         0,          0,          1,         -1,       0   }, /* ghostscript */
@@ -45,7 +47,6 @@ static const Rule rules[] = {
     { NULL,                          NULL,          NULL,          "spmusic",          0,         1,          1,          1,         -1,      'm'  },
     { NULL,                          NULL,          NULL,          "spcal",            0,         1,          1,          1,         -1,      'c'  },
     { NULL,                          NULL,          NULL,          "spcalc",           0,         1,          1,          1,         -1,      'C'  },
-    { NULL,                          NULL,          NULL,          "spnotes",          0,         1,          1,          1,         -1,      'n'  },
 };
 
 
@@ -82,10 +83,8 @@ static const char *dmenucmd[]        = { "dmenu_run", NULL };
 static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *browser[]         = { BROWSER, NULL };
 static const char *email[]           = { TERMINAL,"-t", "email", "-e", "neomutt", NULL };
-// static const char *notes[]           = { TERMINAL,"-t", "notes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
-static const char *notes[]           = { "obsidian", NULL };
 static const char *fileManager[]     = { TERMINAL,"-t", "files", "-e", "lfub", NULL };
-static const char *sounds[]          = { TERMINAL,"-c", "floatingTerm", "-e", "pulsemixer", NULL};
+static const char *notes[]           = { "obsidian", NULL };
 static const char *guiFileManager[]  = { "pcmanfm-qt", NULL };
 static const char *passwords[]       = { "keepassxc", NULL };
 static const char *books[]           = { "calibre", NULL };
@@ -95,10 +94,9 @@ static const char *rss[]             = { TERMINAL, "-t", "rss","-e","newsboat", 
 
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
-static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","ncmpcpp", NULL};
+static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
 static const char *spcal[]      = {"c", TERMINAL, "-t", "spcal","-e","calcurse", NULL};
 static const char *spcalc[]     = {"C", TERMINAL, "-t", "spcalc","-e","qalc", NULL};
-static const char *spnotes[]    = {"n", TERMINAL, "-t", "spnotes", "-e", "sh", "-c", "cd ~/dox/notes && $EDITOR", NULL};
 
 
 /*
@@ -127,11 +125,10 @@ static const Key keys[] = {
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-    { MODKEY|ControlMask,           XK_Return, togglescratch,  {.v = spterm } },
+    { MODKEY,                       XK_s,      togglescratch,  {.v = spterm } },
 	{ MODKEY,                       XK_m,      togglescratch,  {.v = spmusic } },
 	{ MODKEY|ControlMask,           XK_c,      togglescratch,  {.v = spcal } },
 	{ MODKEY|ControlMask,           XK_q,      togglescratch,  {.v = spcalc } },
-	{ MODKEY|ControlMask,           XK_n,      togglescratch,  {.v = spnotes } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
@@ -166,9 +163,8 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_Escape, spawn,          SHCMD("powermenu")},
     { MODKEY,                       XK_w,      spawn,          {.v = browser } },
     { MODKEY,                       XK_e,      spawn,          {.v = email } },
-    { MODKEY,                       XK_n,      spawn,          {.v = notes } },
-    { MODKEY,                       XK_s,      spawn,          {.v = sounds } },
     { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = rss }},
+	{ MODKEY,                       XK_n,      spawn,          {.v = notes } },
     { MODKEY,                       XK_f,      spawn,          {.v = fileManager } },
     { MODKEY|Mod1Mask,              XK_f,      spawn,          {.v = guiFileManager } },
     { MODKEY,                       XK_p,      spawn,          {.v = passwords } },
@@ -192,7 +188,7 @@ static const Key keys[] = {
     { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("mpc volume -5") },
     { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("mpc volume +5") },
     { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("mpc pause && mpc seek 0 && pkill -RTMIN+3 dwmblocks") },
-    { MODKEY|Mod1Mask,              XK_0,      spawn,          SHCMD("mpc seek 0 && pkill -RTMIN+3 dwmblocks") },
+    { MODKEY|Mod1Mask,              XK_n,      spawn,          SHCMD("$HOME/dotfiles/.config/rmpc/rmpc-notifier") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
