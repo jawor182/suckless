@@ -94,7 +94,7 @@ static const char *rss[]             = { TERMINAL, "-t", "rss","-e","newsboat", 
 
 /* First arg only serves to match against key in rules*/
 static const char *spterm[]     = {"t", TERMINAL, "-t", "spterm", NULL};
-static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","rmpc", NULL};
+static const char *spmusic[]    = {"m", TERMINAL, "-t", "spmusic","-e","ncmpcpp", NULL};
 static const char *spcal[]      = {"c", TERMINAL, "-t", "spcal","-e","calcurse", NULL};
 static const char *spcalc[]     = {"C", TERMINAL, "-t", "spcalc","-e","qalc", NULL};
 
@@ -188,7 +188,7 @@ static const Key keys[] = {
     { MODKEY|Mod1Mask,              XK_minus,  spawn,          SHCMD("mpc volume -5") },
     { MODKEY|Mod1Mask,              XK_equal,  spawn,          SHCMD("mpc volume +5") },
     { MODKEY|Mod1Mask,              XK_s,      spawn,          SHCMD("mpc pause && mpc seek 0 && pkill -RTMIN+3 dwmblocks") },
-    { MODKEY|Mod1Mask,              XK_n,      spawn,          SHCMD("$HOME/dotfiles/.config/rmpc/rmpc-notifier") },
+    { MODKEY|Mod1Mask,              XK_0,      spawn,          SHCMD("mpc seek 0 && pkill -RTMIN+3 dwmblocks") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
